@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% set title="Files • AI Cloud Storage" %}
+{% set header="Files" %}
+{% set subheader="Upload, organize, and use AI search. Duplicates are blocked automatically." %}
+{% set active="files" %}
+
+{% block content %}
+<div class="row g-3">
+  <div class="col-xl-4">
+    <div class="card card-soft">
+      <div class="card-body">
+        <div class="fw-semibold mb-2">Upload</div>
+        <form method="post" enctype="multipart/form-data" class="vstack gap-2">
+          <input class="form-control" type="file" name="file" required>
+          <input class="form-control" type="text" name="tags" placeholder="Tags (comma separated) e.g., bills, college, notes">
+          <button class="btn btn-primary">Upload & Auto-classify</button>
+          <div class="text-muted small mt-2">
+            AI will categorize your file and update the smart search index.
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="card card-soft mt-3">
+      <div class="card-body">
+        <div class="fw-semibold mb-2">Filters</div>
+        <form method="get" action="{{ url_for('files_page') }}" class="vstack gap-2">
+          <select class="form-select" name="category">
+            <option value="">All categories</option>
+            {% for c in categories %}
+              <option value="{{ c }}" {% if filter_category==c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+          </select>
+          <input class="form-control" name="tag" value="{{ filter_tag }}" placeholder="Tag contains…">
+          <button class="btn btn-outline-secondary">Apply</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-8">
+    <div class="card card-soft">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="fw-semibold">Your files</div>
+          <div class="text-muted small">{{ files|length }} items</div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table align-middle table-hover">
+            <thead>
+              <tr class="text-muted small">
+                <th>Name</th>
+                <th>Category</th>
+                <th>Size</th>
+                <th>Tags</th>
+                <th>Created</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for f in files %}
+              <tr>
+                <td class="fw-semibold text-truncate" style="max-width: 260px;">{{ f.original_name }}</td>
+                <td><span class="badge text-bg-light">{{ f.category }}</span></td>
+                <td class="text-muted">{{ f.size_bytes|bytes }}</td>
+                <td class="text-muted">{{ f.tags or "—" }}</td>
+                <td class="text-muted">{{ f.created_at|dt }}</td>
+                <td class="text-end">
+                  <a class="btn btn-sm btn-primary" href="{{ url_for('download', file_id=f.id) }}">Download</a>
+                  <form method="post" action="{{ url_for('delete', file_id=f.id) }}" class="d-inline"
+                        onsubmit="return confirm('Delete this file? This cannot be undone.');">
+                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                  </form>
+                </td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="6" class="text-muted">No files match your filter yet.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-muted small mt-2">
+          Tip: Try AI search at the top — e.g., <span class="badge text-bg-light">"notes python"</span> or <span class="badge text-bg-light">"invoice pdf"</span>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

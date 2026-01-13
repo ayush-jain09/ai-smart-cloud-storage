@@ -1,0 +1,29 @@
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: rgba(15, 23, 42, .08);
+  --primary: #2563eb;
+}
+body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial; color: var(--text); }
+.bg-soft { background: radial-gradient(1200px circle at 10% 10%, #dbeafe, transparent 55%),
+                    radial-gradient(900px circle at 90% 30%, #ede9fe, transparent 50%),
+                    var(--bg); min-height: 100vh; }
+.sidebar { width: 280px; background: rgba(255,255,255,.7); backdrop-filter: blur(10px); min-height: 100vh; display:flex; flex-direction:column; }
+.topbar { background: rgba(255,255,255,.75); backdrop-filter: blur(10px); }
+.brand-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 0 6px rgba(37,99,235,.14); }
+.nav-pill { display:block; padding: 10px 12px; margin: 6px 6px; border-radius: 14px; text-decoration:none; color: var(--text); border: 1px solid transparent; }
+.nav-pill:hover { background: rgba(37,99,235,.08); }
+.nav-pill.active { background: rgba(37,99,235,.12); border-color: rgba(37,99,235,.22); font-weight: 600; }
+.card-soft { border: 1px solid var(--border); border-radius: 18px; background: rgba(255,255,255,.85); backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(15,23,42,.05); }
+.search { min-width: 320px; }
+.toast-stack { position: fixed; top: 16px; right: 16px; z-index: 1080; width: min(440px, calc(100vw - 32px)); }
+.file-card { border: 1px solid var(--border); border-radius: 18px; padding: 16px; background: rgba(255,255,255,.85); }
+.risk-pill { display:inline-flex; align-items:center; justify-content:center; padding: 6px 12px; border-radius: 999px; font-weight: 700; font-size: 12px; border: 1px solid var(--border); background: rgba(255,255,255,.9); }
+.risk-low { color: #0f766e; border-color: rgba(15,118,110,.22); background: rgba(13,148,136,.12); }
+.risk-medium { color: #a16207; border-color: rgba(161,98,7,.22); background: rgba(245,158,11,.14); }
+.risk-high { color: #b91c1c; border-color: rgba(185,28,28,.22); background: rgba(239,68,68,.14); }
+/* ---------- AUTH PAGE TEXT FIX ---------- */
+
+

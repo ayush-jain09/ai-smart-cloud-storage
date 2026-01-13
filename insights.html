@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% set title="AI Insights • AI Cloud Storage" %}
+{% set header="AI Insights" %}
+{% set subheader="Smart recommendations + behavior-based security signal (no dataset required)." %}
+{% set active="insights" %}
+
+{% block content %}
+<div class="row g-3">
+  <div class="col-xl-6">
+    <div class="card card-soft h-100">
+      <div class="card-body">
+        <div class="fw-semibold mb-1">Security signal</div>
+        <div class="text-muted small">{{ risk.why }}</div>
+        <div class="d-flex align-items-center gap-3 mt-3">
+          <div class="risk-pill risk-{{ risk.level|lower }}">{{ risk.level }}</div>
+          <div>
+            <div class="fw-semibold">{{ risk.label }}</div>
+            <div class="text-muted small">Score: {{ (risk.score*100)|round(0) }} / 100</div>
+          </div>
+        </div>
+        <div class="progress mt-3" style="height: 8px;">
+          <div class="progress-bar" role="progressbar" style="width: {{ (risk.score*100)|round(0) }}%"></div>
+        </div>
+        <div class="text-muted small mt-3">
+          This uses anomaly detection on your own usage actions (upload/download/search/delete). No external data needed.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-6">
+    <div class="card card-soft h-100">
+      <div class="card-body">
+        <div class="fw-semibold mb-3">Optimization recommendations</div>
+        <div class="vstack gap-2">
+          {% for r in recs %}
+          <div class="p-3 rounded-4 bg-white border">
+            <div class="fw-semibold">{{ r.title }}</div>
+            <div class="text-muted small">{{ r.text }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card card-soft">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="fw-semibold">Recent activity log</div>
+          <div class="text-muted small">Last 200 actions</div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle">
+            <thead>
+              <tr class="text-muted small">
+                <th>Time</th>
+                <th>Action</th>
+                <th>File ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for l in logs %}
+              <tr>
+                <td class="text-muted">{{ l.created_at|dt }}</td>
+                <td><span class="badge text-bg-light">{{ l.action }}</span></td>
+                <td class="text-muted">{{ l.file_id if l.file_id else "—" }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="3" class="text-muted">No activity yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
